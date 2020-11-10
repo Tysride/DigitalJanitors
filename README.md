@@ -38,3 +38,8 @@ Digital Janitors is an action-packed desktop defense game where hackers have tak
 # Scanner
     Opens a tab on the simulated desktop that will scan unknown files 
     Reports if they are good or bad
+    
+# Boss 1 and 2 
+    Joint effort with me and the lead programmer
+    Acts as the manager for both the boss fights
+    The laser script creates random set of lasers to spawn in a phase
