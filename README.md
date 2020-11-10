@@ -6,6 +6,9 @@ Digital Janitors is an action-packed desktop defense game where hackers have tak
     I generaly make the scripts that apply to UI and Managers in the game
     Code I make varries depending on what the lead programmer may need
  
+# Currency Folder
+    Acts as the tracker and visual respresentaton of the players money
+    Also applies to the shop
 
 # PauseMenu 
     Functions as the manager for the pause menu in game
