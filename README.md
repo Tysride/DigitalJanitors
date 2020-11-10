@@ -32,3 +32,9 @@ Digital Janitors is an action-packed desktop defense game where hackers have tak
 # Clock
     Let's the player have a little clock in the bottom right
     Changes time through the level
+# TaskBarOpen
+    If the player hovers over icons at the bottom of the screen and clicks it will open it
+    simulates a task bar (go ahead and try it for yourself it acts just like it...sorta)
+# Scanner
+    Opens a tab on the simulated desktop that will scan unknown files 
+    Reports if they are good or bad
