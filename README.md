@@ -1,5 +1,11 @@
 # DigitalJanitors
-Code written for my game Digital Janitors 
+Digital Janitors is an action-packed desktop defense game where hackers have taken your employer's network hostage, which means the player must go to each computer in the company, excise the virus, and beat the hacker threat.
+
+# What do I do?
+    I work with the lead Programmer Shane Tupler to write all the code for the game
+    I generaly make the scripts that apply to UI and Managers in the game
+    Code I make varries depending on what the lead programmer may need
+ 
 
 # PauseMenu 
     Functions as the manager for the pause menu in game
@@ -17,4 +23,4 @@ Code written for my game Digital Janitors
             Causes fail state when filled
 # Clock
     Let's the player have a little clock in the bottom right
-    changes time through the level
+    Changes time through the level
