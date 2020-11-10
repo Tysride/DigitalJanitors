@@ -21,6 +21,11 @@ Digital Janitors is an action-packed desktop defense game where hackers have tak
             Raised pitch of music 
             Screen gets glitchy
             Causes fail state when filled
+# RandomShop 
+    Currently functions *not* as a random shop but will be in future updates of the game
+    Alows the player to pick from three hand picked items
+    handpicked items are determined in engine based on what we want to show off for a demo or playtest
+    
 # Clock
     Let's the player have a little clock in the bottom right
     Changes time through the level
