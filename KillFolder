@@ -1,0 +1,68 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class KillFolder : MonoBehaviour
+{
+
+    
+    public Boss2Spawn fireWalls;
+    
+    public List<FolderClass> folderList = new List<FolderClass>();
+    void Start()
+    {
+        Destroy(gameObject, 10);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Personal")
+       {
+           Destroy(other.gameObject);
+           StartCoroutine(fireWalls.failState());
+           DangerBar.instance.slider.value += .4f;
+
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent<FolderClass>() != null)
+        {
+            FolderClass folderClass = other.GetComponent<FolderClass>();
+            folderList.Remove(folderClass);
+        }
+    }
+
+    IEnumerator CollisionCoroutine(GameObject obj, FolderClass folderClass)
+    {
+        while (folderList.Contains(folderClass))
+        {
+            if (obj != null)
+            {
+                Shake.instance.CamBigShake();
+                FolderManager.instance.allFolders.Remove(obj);
+                yield return new WaitForEndOfFrame();
+                Destroy(obj);
+                DangerBar.instance.slider.value += .4f;
+                DangerBar.instance.BossHealthCheck();
+                yield return new WaitForEndOfFrame();
+                Destroy(gameObject);
+            }
+            yield return null;
+        }
+        yield return null;
+    }
+
+    public void OnDestroy()
+    {
+        fireWalls.spawnedEnemyList.Remove(gameObject);
+    }
+
+
+}
