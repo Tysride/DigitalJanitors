@@ -1,0 +1,202 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Boss2Spawn : MonoBehaviour
+{
+    #region Variables
+    public Vector2 XMove;
+    private Vector2 mv;
+    public Rigidbody2D rb;
+    public List<GameObject> Enemy = new List<GameObject>();
+    public List<GameObject> spawnedEnemyList = new List<GameObject>();
+
+    public int FallSpeed;
+    public bool PhaseActive;
+    float randX;
+    public Vector2 whereToSpawn;
+    public float spawnRate = 2f;
+    float nextSpawn = 0.0f;
+    public int lastInstanceIndex;
+    public int indexToSpawn;
+    public int TimeToWaitForDrive;
+    public int ActiveDrive;
+    public int Phase = 1;
+    public GameObject Drive;
+    public int PhaseLength;
+    public GameObject Folder;
+    private GameObject spawnedFolder;
+    #endregion
+    
+    void Start()
+    {
+       
+        PhaseActive = true;
+        Drive.SetActive(false);
+        PhaseLength = 15;
+        StartCoroutine(BossStart());
+        SpawnFolder();
+
+    }
+
+    // Update is called once per frame
+    #region Update
+    void Update()
+    {
+    
+        mv =  XMove * FallSpeed;
+        rb.MovePosition(rb.position + mv * Time.deltaTime);
+    }
+    #endregion
+
+    public void InstantiateGo()
+    {
+        int indexToSpawn = lastInstanceIndex + 1;
+        // We have reached the end of the list. No more gameobjects to spawn.
+        if (indexToSpawn >= Enemy.Count)
+        {
+            return;
+        }
+    }
+
+    public IEnumerator BossStart()
+    {
+
+        StartCoroutine(PhaseCountDownCoroutine(PhaseLength));
+        if (Phase == 1)
+        {
+            Debug.Log("Phase1");
+            spawnRate = 0.8f;
+            
+        }
+
+        else if (Phase == 2)
+        {
+            Debug.Log("Phase2");
+            spawnRate = 0.7f;
+            
+        }
+
+        while (PhaseActive)
+        {
+           
+            if (Time.time > nextSpawn)
+            {
+
+                nextSpawn = Time.time + spawnRate;
+                randX = Random.Range(-6f, 6f);
+                whereToSpawn = new Vector2(randX, transform.position.y);
+                GameObject obj = Instantiate(Enemy[indexToSpawn], whereToSpawn, Quaternion.identity);
+                spawnedEnemyList.Add(obj);
+                obj.GetComponent<KillFolder>().fireWalls = this;
+                indexToSpawn = indexToSpawn + 1;
+            }
+            if (indexToSpawn >= Enemy.Count)
+            {
+                indexToSpawn = 1;
+            }
+            yield return null;
+        }
+    }
+
+
+    
+ 
+
+    IEnumerator DriveSpawnCoroutine()
+    {
+       
+        Debug.Log("Drive Spawn");
+        Drive.SetActive(true);
+        while (spawnedFolder != null)
+        {
+            yield return null;
+        }
+        Drive.SetActive(false);
+        Phase += 1;
+        PhaseActive = true;
+        StartCoroutine(BossStart());
+        SpawnFolder();
+
+    }
+
+    IEnumerator PhaseCountDownCoroutine(int PhaseTime)
+    {
+        float f = 0; 
+        while ( f < PhaseLength) 
+        {
+            if (PhaseActive)
+            {
+                f += Time.deltaTime;
+            }
+            else
+            {
+                break;
+            }
+            yield return null;
+
+
+        }
+        //yield return new WaitForSeconds(PhaseTime);
+        PhaseActive = false;
+        PhaseLength += 5;
+        foreach(GameObject obj in spawnedEnemyList)
+        {
+            Destroy(obj);
+        }
+        StartCoroutine(DriveSpawnCoroutine());
+    }
+
+   public IEnumerator failState()
+    {
+        Debug.Log(PhaseLength);
+        StopCoroutine(PhaseCountDownCoroutine(PhaseLength));
+        PhaseActive = false;
+        foreach (GameObject obj in spawnedEnemyList)
+        {
+            Destroy(obj);
+        }
+        yield return new WaitForSeconds(.5f);
+        PhaseActive = true;
+        StartCoroutine(BossStart());
+        SpawnFolder();
+
+
+    }
+
+    private void SpawnFolder()
+    {
+        Vector3 spawnPosition = new Vector3();
+        int random = Random.Range(1, 5);
+        if (random == 1)
+        {
+            float spawnY = Random.Range(0, ReferenceManager.instance.spawnCam.ScreenToWorldPoint(new Vector2(Screen.height, 0)).y);
+            float spawnX = Random.Range(0, ReferenceManager.instance.spawnCam.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
+            spawnPosition = new Vector3(spawnX, spawnY, 0);
+
+        }
+        else if (random == 2)
+        {
+            float spawnY = Random.Range(0, ReferenceManager.instance.spawnCam.ScreenToWorldPoint(new Vector2(0, Screen.height)).y);
+            float spawnX = Random.Range(0, ReferenceManager.instance.spawnCam.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
+            spawnPosition = new Vector3(spawnX, spawnY, 0);
+        }
+        else if (random == 3)
+        {
+            float spawnY = Random.Range(0, ReferenceManager.instance.spawnCam.ScreenToWorldPoint(new Vector2(Screen.height, 0)).y);
+            float spawnX = Random.Range(0, ReferenceManager.instance.spawnCam.ScreenToWorldPoint(new Vector2(0, Screen.width)).x);
+            spawnPosition = new Vector3(spawnX, spawnY, 0);
+        }
+        else if (random == 4)
+        {
+            float spawnY = Random.Range(0, ReferenceManager.instance.spawnCam.ScreenToWorldPoint(new Vector2(0, Screen.height)).y);
+            float spawnX = Random.Range(0, ReferenceManager.instance.spawnCam.ScreenToWorldPoint(new Vector2(0, Screen.width)).x);
+            spawnPosition = new Vector3(spawnX, spawnY, 0);
+        }
+
+        spawnedFolder = Instantiate(Folder,spawnPosition, Quaternion.identity);
+        spawnedFolder.GetComponent<FolderClass>().AssignFolderType("Personal");
+    }
+   
+}
