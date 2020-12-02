@@ -39,7 +39,19 @@ Digital Janitors is an action-packed desktop defense game where hackers have tak
     Opens a tab on the simulated desktop that will scan unknown files 
     Reports if they are good or bad
     
-# Boss 1 and 2 
+# Boss 1 
     Joint effort with me and the lead programmer
-    Acts as the manager for both the boss fights
+    Acts as the manager Boss 1
     The laser script creates random set of lasers to spawn in a phase
+# Boss 2 
+I had Primary lead programming and concepting for this boss
+# Boss 2 Spawn
+    Acts as the manager for the Boss 2 fight
+    Spawns folder at the start 
+    connects with kill folder to restart when failstate is met
+    Easy to edit in the Unity scene for tweaking the difficult later
+# Kill folder
+    This script will detect when the folder colides with the obstacals
+    Will wipe the screen when the phase is complete or when the player colides with obstiacles
+    
+
